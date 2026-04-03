@@ -1,6 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
 import { LogOut, User, Settings, Bell } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,14 @@ interface TopNavbarProps {
 }
 
 export function TopNavbar({ userName = "User", role = "Employee" }: TopNavbarProps) {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userName");
+    router.push("/");
+  };
+
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 bg-background px-4 sm:static sm:h-16 sm:px-6 justify-between md:justify-end">
       {/* Mobile Title */}
@@ -67,7 +76,7 @@ export function TopNavbar({ userName = "User", role = "Employee" }: TopNavbarPro
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">
+            <DropdownMenuItem className="text-destructive cursor-pointer" onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
             </DropdownMenuItem>

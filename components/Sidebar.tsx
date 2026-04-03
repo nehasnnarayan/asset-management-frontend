@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import {
   Package,
@@ -30,7 +30,14 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function Sidebar({ className, userRole, userName = "User", ...props }: SidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const { setTheme, theme } = useTheme();
+
+  const handleLogout = () => {
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userName");
+    router.push("/");
+  };
 
   return (
     <div className={cn("pb-12 border-r bg-sidebar h-screen flex flex-col", className)} {...props}>
@@ -167,7 +174,11 @@ export function Sidebar({ className, userRole, userName = "User", ...props }: Si
           </Button>
         </div>
         
-        <Button variant="outline" className="w-full justify-start text-muted-foreground">
+        <Button 
+          variant="outline" 
+          className="w-full justify-start text-muted-foreground hover:bg-destructive/10 hover:text-destructive border-border/50"
+          onClick={handleLogout}
+        >
           <LogOut className="mr-2 h-4 w-4" />
           Log out
         </Button>
