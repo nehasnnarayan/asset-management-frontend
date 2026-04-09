@@ -17,12 +17,12 @@ interface EmptyStateProps {
   className?: string;
 }
 
-export function EmptyState({ 
-  title, 
-  description, 
-  icon = <PackageOpen className="h-12 w-12 text-muted-foreground/50" />, 
+export function EmptyState({
+  title,
+  description,
+  icon = <PackageOpen className="h-12 w-12 text-muted-foreground/50" />,
   action,
-  className 
+  className
 }: EmptyStateProps) {
   return (
     <div className={cn("flex min-h-[400px] flex-col items-center justify-center rounded-xl border border-dashed p-8 text-center animate-in fade-in-50", className)}>

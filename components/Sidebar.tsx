@@ -95,7 +95,7 @@ export function Sidebar({ className, userRole, userName = "User", ...props }: Si
                     Vault Management
                   </span>
                 </div>
-                
+
                 <Button
                   variant={pathname === "/assets" ? "secondary" : "ghost"}
                   className="w-full justify-start text-primary"
@@ -106,7 +106,7 @@ export function Sidebar({ className, userRole, userName = "User", ...props }: Si
                     All Assets
                   </Link>
                 </Button>
-                
+
                 <Button
                   variant={pathname === "/employees" ? "secondary" : "ghost"}
                   className="w-full justify-start text-primary"
@@ -146,7 +146,7 @@ export function Sidebar({ className, userRole, userName = "User", ...props }: Si
           </div>
         </div>
       </div>
-      
+
       {/* Footer / User Area */}
       <div className="mt-auto border-t p-4 space-y-4">
         <div className="flex items-center justify-between">
@@ -161,9 +161,9 @@ export function Sidebar({ className, userRole, userName = "User", ...props }: Si
               <span className="text-xs text-muted-foreground">{userRole}</span>
             </div>
           </div>
-          
-          <Button 
-            variant="ghost" 
+
+          <Button
+            variant="ghost"
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="h-8 w-8"
@@ -173,9 +173,9 @@ export function Sidebar({ className, userRole, userName = "User", ...props }: Si
             <span className="sr-only">Toggle theme</span>
           </Button>
         </div>
-        
-        <Button 
-          variant="outline" 
+
+        <Button
+          variant="outline"
           className="w-full justify-start text-muted-foreground hover:bg-destructive/10 hover:text-destructive border-border/50"
           onClick={handleLogout}
         >

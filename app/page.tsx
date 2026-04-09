@@ -31,15 +31,20 @@ export default function LoginPage() {
 
       const data = await res.json();
       localStorage.setItem("token", data.access_token);
-      localStorage.setItem("userRole", data.user.role);
       localStorage.setItem("userName", data.user.employee_code);
+      
+      const roles = data.user.roles || [];
+      localStorage.setItem("availableRoles", JSON.stringify(roles));
+      
+      const primaryRole = roles[0] || "Employee";
+      localStorage.setItem("userRole", primaryRole);
 
       toast.success("Login Successful!");
 
       // Role Based Routing
-      if (data.user.role === "Superadmin") {
+      if (primaryRole === "Superadmin") {
         router.push("/superadmin-dashboard");
-      } else if (data.user.role === "Admin") {
+      } else if (primaryRole === "Admin") {
         router.push("/dashboard");
       } else {
         router.push("/my-assets");
@@ -54,7 +59,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 charity-bg">
       <div className="w-full max-w-sm glass-panel p-8 sm:p-10 rounded-[1.5rem] shadow-2xl relative z-10 border-0 flex flex-col items-center">
-        
+
         {/* Branding */}
         <div className="flex flex-col items-center mb-8">
           <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4 text-primary relative">
@@ -84,7 +89,7 @@ export default function LoginPage() {
                 disabled={isLoading}
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="password" className="font-bold text-foreground ml-1">Password</Label>
               <div className="relative">
@@ -103,8 +108,8 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="w-full h-14 rounded-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg shadow-lg hover:shadow-primary/25 transition-all mt-4"
             disabled={isLoading}
           >
