@@ -2,6 +2,7 @@
 
 import { Activity, CreditCard, DollarSign, Users, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   Card,
@@ -21,6 +22,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 export function StatCards() {
+  const router = useRouter();
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -52,7 +54,10 @@ export function StatCards() {
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <Card className="shadow-lg border-0 bg-gradient-to-br from-purple-700 to-fuchsia-600 text-white overflow-hidden relative">
+      <Card 
+        onClick={() => router.push("/assets")}
+        className="shadow-lg border-0 bg-gradient-to-br from-purple-700 to-fuchsia-600 text-white overflow-hidden relative cursor-pointer hover:scale-[1.02] transition-transform"
+      >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium text-white/80">Total Assets</CardTitle>
           <div className="p-1.5 bg-white/10 rounded-md">
@@ -67,7 +72,10 @@ export function StatCards() {
           </div>
         </CardContent>
       </Card>
-      <Card className="shadow-lg border-[0.5px] border-teal-500/20 bg-gradient-to-br from-background to-teal-950/30 text-card-foreground">
+      <Card 
+        onClick={() => router.push("/assets")}
+        className="shadow-lg border-[0.5px] border-teal-500/20 bg-gradient-to-br from-background to-teal-950/30 text-card-foreground cursor-pointer hover:bg-teal-500/5 transition-colors"
+      >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium text-muted-foreground">Assigned Assets</CardTitle>
           <div className="p-1.5 bg-secondary rounded-md border border-border/50">
@@ -82,7 +90,10 @@ export function StatCards() {
           </div>
         </CardContent>
       </Card>
-      <Card className="shadow-lg border-[0.5px] border-purple-500/20 bg-gradient-to-br from-background to-purple-950/20 text-card-foreground">
+      <Card 
+        onClick={() => router.push("/assets")}
+        className="shadow-lg border-[0.5px] border-purple-500/20 bg-gradient-to-br from-background to-purple-950/20 text-card-foreground cursor-pointer hover:bg-purple-500/5 transition-colors"
+      >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium text-muted-foreground">Available Assets</CardTitle>
           <div className="p-1.5 bg-secondary rounded-md border border-border/50">
@@ -97,18 +108,21 @@ export function StatCards() {
           </div>
         </CardContent>
       </Card>
-      <Card className="shadow-lg border-[0.5px] border-orange-500/20 bg-gradient-to-br from-background to-orange-950/20 text-card-foreground">
+      <Card 
+        onClick={() => router.push("/employees")}
+        className="shadow-lg border-[0.5px] border-orange-500/20 bg-gradient-to-br from-background to-orange-950/20 text-card-foreground cursor-pointer hover:bg-orange-500/5 transition-colors"
+      >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">Maintenance</CardTitle>
+          <CardTitle className="text-sm font-medium text-muted-foreground">Directory</CardTitle>
           <div className="p-1.5 bg-secondary rounded-md border border-border/50">
-            <Activity className="h-4 w-4 text-muted-foreground" />
+            <Users className="h-4 w-4 text-muted-foreground" />
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-4xl font-bold mt-2 text-foreground">{stats?.maintenance_assets || 0}</div>
+          <div className="text-4xl font-bold mt-2 text-foreground">{stats?.total_employees || stats?.maintenance_assets || 0}</div>
           <div className="flex items-center gap-2 mt-4">
-            <span className="text-xs bg-orange-500/20 text-orange-500 px-2 py-0.5 rounded-full">SERVICE</span>
-            <span className="text-xs text-muted-foreground font-medium">Currently repairing</span>
+            <span className="text-xs bg-orange-500/20 text-orange-500 px-2 py-0.5 rounded-full">STAFF</span>
+            <span className="text-xs text-muted-foreground font-medium">Manage members</span>
           </div>
         </CardContent>
       </Card>
