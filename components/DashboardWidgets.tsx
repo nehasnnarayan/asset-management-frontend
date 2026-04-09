@@ -1,4 +1,7 @@
-import { Activity, CreditCard, DollarSign, Users } from "lucide-react";
+"use client";
+
+import { Activity, CreditCard, DollarSign, Users, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
 
 import {
   Card,
@@ -18,6 +21,34 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 export function StatCards() {
+  const [stats, setStats] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/dashboard/summary")
+      .then(res => res.json())
+      .then(data => {
+        setStats(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to fetch dashboard stats", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {[1, 2, 3, 4].map(i => (
+          <Card key={i} className="h-32 flex items-center justify-center animate-pulse bg-muted/20 border-0">
+            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground/30" />
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card className="shadow-lg border-0 bg-gradient-to-br from-purple-700 to-fuchsia-600 text-white overflow-hidden relative">
@@ -28,10 +59,10 @@ export function StatCards() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-4xl font-bold mt-2">1,245</div>
+          <div className="text-4xl font-bold mt-2">{stats?.total_assets || 0}</div>
           <div className="flex items-center gap-2 mt-4">
-            <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">+20</span>
-            <span className="text-xs text-white/70 font-medium">from last month</span>
+            <span className="text-xs bg-white/20 px-2 py-0.5 rounded-full">LIVE</span>
+            <span className="text-xs text-white/70 font-medium">Real-time count</span>
           </div>
         </CardContent>
       </Card>
@@ -43,10 +74,10 @@ export function StatCards() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-4xl font-bold mt-2 text-foreground">890</div>
+          <div className="text-4xl font-bold mt-2 text-foreground">{stats?.assigned_assets || 0}</div>
           <div className="flex items-center gap-2 mt-4">
-            <span className="text-xs bg-secondary/80 text-foreground px-2 py-0.5 rounded-full">+54</span>
-            <span className="text-xs text-muted-foreground font-medium">this week</span>
+            <span className="text-xs bg-teal-500/20 text-teal-500 px-2 py-0.5 rounded-full">ACTIVE</span>
+            <span className="text-xs text-muted-foreground font-medium">In use</span>
           </div>
         </CardContent>
       </Card>
@@ -58,10 +89,10 @@ export function StatCards() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-4xl font-bold mt-2 text-foreground">230</div>
+          <div className="text-4xl font-bold mt-2 text-foreground">{stats?.available_assets || 0}</div>
           <div className="flex items-center gap-2 mt-4">
-            <span className="text-xs bg-secondary/80 text-foreground px-2 py-0.5 rounded-full">-12</span>
-            <span className="text-xs text-muted-foreground font-medium">from last week</span>
+            <span className="text-xs bg-purple-500/20 text-purple-500 px-2 py-0.5 rounded-full">READY</span>
+            <span className="text-xs text-muted-foreground font-medium">Available to assign</span>
           </div>
         </CardContent>
       </Card>
@@ -73,10 +104,10 @@ export function StatCards() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-4xl font-bold mt-2 text-foreground">125</div>
+          <div className="text-4xl font-bold mt-2 text-foreground">{stats?.maintenance_assets || 0}</div>
           <div className="flex items-center gap-2 mt-4">
-            <span className="text-xs bg-secondary/80 text-foreground px-2 py-0.5 rounded-full">+2</span>
-            <span className="text-xs text-muted-foreground font-medium">currently repairing</span>
+            <span className="text-xs bg-orange-500/20 text-orange-500 px-2 py-0.5 rounded-full">SERVICE</span>
+            <span className="text-xs text-muted-foreground font-medium">Currently repairing</span>
           </div>
         </CardContent>
       </Card>
@@ -84,15 +115,23 @@ export function StatCards() {
   );
 }
 
-const recentAssignments = [
-  { id: "A-1029", asset: "MacBook Pro 16", employee: "John Doe", date: "2026-03-05", status: "Active" },
-  { id: "A-1030", asset: "Dell UltraSharp 27", employee: "Jane Smith", date: "2026-03-04", status: "Active" },
-  { id: "A-1031", asset: "ErgoChair Pro", employee: "Alice Webb", date: "2026-03-04", status: "Pending" },
-  { id: "A-1032", asset: "Lenovo ThinkPad X1", employee: "Bob Martin", date: "2026-03-02", status: "Active" },
-  { id: "A-1033", asset: "Apple Magic Keyboard", employee: "Charlie Day", date: "2026-03-01", status: "Returned" },
-];
-
 export function RecentActivityTable() {
+  const [activities, setActivities] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/dashboard/recent-activities")
+      .then(res => res.json())
+      .then(data => {
+        setActivities(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to fetch recent activities", err);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <Card className="col-span-3 shadow-lg border-[0.5px] border-border/50 bg-background/50 backdrop-blur-md">
       <CardHeader>
@@ -102,30 +141,45 @@ export function RecentActivityTable() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow className="border-border/50 hover:bg-transparent">
-              <TableHead className="w-[100px] font-medium text-muted-foreground">Asset ID</TableHead>
-              <TableHead className="font-medium text-muted-foreground">Asset Name</TableHead>
-              <TableHead className="font-medium text-muted-foreground">Employee</TableHead>
-              <TableHead className="text-right font-medium text-muted-foreground">Status</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {recentAssignments.map((assignment) => (
-              <TableRow key={assignment.id} className="border-border/10 font-medium text-foreground hover:bg-muted/50">
-                <TableCell>{assignment.id}</TableCell>
-                <TableCell>{assignment.asset}</TableCell>
-                <TableCell>{assignment.employee}</TableCell>
-                <TableCell className="text-right">
-                  <Badge className="rounded-md px-2 py-1 shadow-none" variant={assignment.status === "Active" ? "default" : assignment.status === "Returned" ? "outline" : "secondary"}>
-                    {assignment.status}
-                  </Badge>
-                </TableCell>
+        {loading ? (
+          <div className="h-48 flex flex-col items-center justify-center gap-2 text-muted-foreground/50">
+            <Loader2 className="h-8 w-8 animate-spin" />
+            <span className="text-sm font-medium">Fetching recent assignments...</span>
+          </div>
+        ) : (
+          <Table>
+            <TableHeader>
+              <TableRow className="border-border/50 hover:bg-transparent">
+                <TableHead className="w-[100px] font-medium text-muted-foreground">Asset ID</TableHead>
+                <TableHead className="font-medium text-muted-foreground">Asset Name</TableHead>
+                <TableHead className="font-medium text-muted-foreground">Employee</TableHead>
+                <TableHead className="text-right font-medium text-muted-foreground">Status</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {activities.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={4} className="h-24 text-center text-muted-foreground">
+                    No recent assignments found.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                activities.map((assignment, index) => (
+                  <TableRow key={index} className="border-border/10 font-medium text-foreground hover:bg-muted/50">
+                    <TableCell>{assignment.id}</TableCell>
+                    <TableCell>{assignment.asset}</TableCell>
+                    <TableCell>{assignment.employee}</TableCell>
+                    <TableCell className="text-right">
+                      <Badge className="rounded-md px-2 py-1 shadow-none" variant={assignment.status === "Active" || assignment.status === "ASSIGNED" ? "default" : assignment.status === "Returned" ? "outline" : "secondary"}>
+                        {assignment.status}
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        )}
       </CardContent>
     </Card>
   );
