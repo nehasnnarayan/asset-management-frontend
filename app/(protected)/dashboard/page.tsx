@@ -1,4 +1,8 @@
+"use client";
+
 import { StatCards, RecentActivityTable } from "@/components/DashboardWidgets";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
   return (

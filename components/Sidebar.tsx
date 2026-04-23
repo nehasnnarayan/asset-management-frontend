@@ -1,26 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
 import {
   Package,
   Users,
-  LayoutDashboard,
+  LayoutGrid,
   LogOut,
   Moon,
   Sun,
   ShieldAlert,
   Archive,
   User as UserIcon,
+  DollarSign,
+  CreditCard,
+  AlertTriangle,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
-// Types simulating a logged in user from mock state or JWT context
 export type UserRole = "Superadmin" | "Admin" | "Employee" | null;
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -30,158 +31,207 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function Sidebar({ className, userRole, userName = "User", ...props }: SidebarProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const { setTheme, theme } = useTheme();
+  
+  const currentStatus = searchParams.get("status");
 
   const handleLogout = () => {
-    localStorage.removeItem("userRole");
-    localStorage.removeItem("userName");
+    localStorage.clear();
     router.push("/");
   };
 
+  const NavButton = ({ href, icon: Icon, children, isActive }: any) => (
+    <Button
+      variant={isActive ? "secondary" : "ghost"}
+      className={cn(
+        "w-full justify-start h-11 px-4 rounded-xl transition-all font-bold",
+        isActive ? "bg-white/5 text-white" : "text-muted-foreground hover:text-white hover:bg-white/5"
+      )}
+      asChild
+    >
+      <Link href={href}>
+        <Icon className={cn("mr-3 h-4 w-4", isActive ? "text-primary" : "text-muted-foreground")} />
+        {children}
+      </Link>
+    </Button>
+  );
+
+  const SectionLabel = ({ children }: { children: React.ReactNode }) => (
+    <div className="px-4 py-4 mt-2">
+      <span className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-[0.2em]">
+        {children}
+      </span>
+    </div>
+  );
+
   return (
-    <div className={cn("pb-12 border-r bg-sidebar h-screen flex flex-col", className)} {...props}>
-      <div className="space-y-4 py-4 flex-1">
-        <div className="px-3 py-2">
-          <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight text-sidebar-foreground flex items-center gap-2">
+    <div className={cn("pb-8 bg-[#0c0a0f] h-screen flex flex-col w-64 border-r border-white/5", className)} {...props}>
+      <div className="flex-1 px-3 py-6 space-y-2 overflow-y-auto scrollbar-hide">
+        <div className="px-4 mb-8 flex items-center gap-3">
+          <div className="p-1.5 bg-primary/10 rounded-lg">
             <Archive className="h-6 w-6 text-primary" />
-            AssetTrack Pro
-          </h2>
-          <div className="space-y-1 mt-6">
-            {userRole === "Superadmin" ? (
-              <>
-                <Button
-                  variant={pathname === "/superadmin-dashboard" ? "secondary" : "ghost"}
-                  className="w-full justify-start text-primary"
-                  asChild
-                >
-                  <Link href="/superadmin-dashboard">
-                    <ShieldAlert className="mr-2 h-4 w-4" />
-                    Superadmin Hub
-                  </Link>
-                </Button>
-                <div className="my-4 border-t px-4 py-2">
-                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                    Global System View
-                  </span>
-                </div>
-                <Button
-                  variant={pathname === "/dashboard" ? "secondary" : "ghost"}
-                  className="w-full justify-start"
-                  asChild
-                >
-                  <Link href="/dashboard">
-                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                    Vault Overview
-                  </Link>
-                </Button>
-              </>
-            ) : userRole === "Admin" ? (
-              <>
-                <Button
-                  variant={pathname === "/dashboard" ? "secondary" : "ghost"}
-                  className="w-full justify-start"
-                  asChild
-                >
-                  <Link href="/dashboard">
-                    <LayoutDashboard className="mr-2 h-4 w-4" />
-                    Dashboard
-                  </Link>
-                </Button>
-
-                <div className="my-4 border-t px-4 py-2">
-                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
-                    <ShieldAlert className="h-3 w-3" />
-                    Vault Management
-                  </span>
-                </div>
-
-                <Button
-                  variant={pathname === "/assets" ? "secondary" : "ghost"}
-                  className="w-full justify-start text-primary"
-                  asChild
-                >
-                  <Link href="/assets">
-                    <Archive className="mr-2 h-4 w-4" />
-                    All Assets
-                  </Link>
-                </Button>
-
-                <Button
-                  variant={pathname === "/employees" ? "secondary" : "ghost"}
-                  className="w-full justify-start text-primary"
-                  asChild
-                >
-                  <Link href="/employees">
-                    <Users className="mr-2 h-4 w-4" />
-                    Employees
-                  </Link>
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  variant={pathname === "/my-assets" ? "secondary" : "ghost"}
-                  className="w-full justify-start"
-                  asChild
-                >
-                  <Link href="/my-assets">
-                    <Package className="mr-2 h-4 w-4" />
-                    My Assets
-                  </Link>
-                </Button>
-
-                <Button
-                  variant={pathname === "/profile" ? "secondary" : "ghost"}
-                  className="w-full justify-start"
-                  asChild
-                >
-                  <Link href="/profile">
-                    <UserIcon className="mr-2 h-4 w-4" />
-                    Profile
-                  </Link>
-                </Button>
-              </>
-            )}
           </div>
+          <span className="text-lg font-bold tracking-tight text-white">AssetTrack Pro</span>
+        </div>
+
+        <div className="space-y-1">
+          {userRole === "Superadmin" ? (
+            <>
+              <NavButton 
+                href="/superadmin-dashboard" 
+                icon={ShieldAlert} 
+                isActive={pathname === "/superadmin-dashboard"}
+              >
+                Superadmin Hub
+              </NavButton>
+
+              <SectionLabel>GLOBAL SYSTEM VIEW</SectionLabel>
+              <NavButton 
+                href="/dashboard" 
+                icon={LayoutGrid} 
+                isActive={pathname === "/dashboard"}
+              >
+                Vault Overview
+              </NavButton>
+
+              <SectionLabel>INVENTORY INSIGHTS</SectionLabel>
+              <NavButton 
+                href="/assets" 
+                icon={DollarSign} 
+                isActive={pathname === "/assets" && !currentStatus}
+              >
+                Total Assets
+              </NavButton>
+              <NavButton 
+                href="/assets?status=ASSIGNED" 
+                icon={Users} 
+                isActive={pathname === "/assets" && currentStatus === "ASSIGNED"}
+              >
+                Assigned Assets
+              </NavButton>
+              <NavButton 
+                href="/assets?status=AVAILABLE" 
+                icon={CreditCard} 
+                isActive={pathname === "/assets" && currentStatus === "AVAILABLE"}
+              >
+                Available Assets
+              </NavButton>
+              <NavButton 
+                href="/assets?status=MAINTENANCE" 
+                icon={AlertTriangle} 
+                isActive={pathname === "/assets" && currentStatus === "MAINTENANCE"}
+              >
+                Maintenance
+              </NavButton>
+              <NavButton 
+                href="/employees" 
+                icon={Users} 
+                isActive={pathname === "/employees"}
+              >
+                Directory
+              </NavButton>
+            </>
+          ) : userRole === "Admin" ? (
+            <>
+              <NavButton 
+                href="/dashboard" 
+                icon={LayoutGrid} 
+                isActive={pathname === "/dashboard"}
+              >
+                Dashboard
+              </NavButton>
+
+              <SectionLabel>INVENTORY INSIGHTS</SectionLabel>
+              <NavButton 
+                href="/assets" 
+                icon={DollarSign} 
+                isActive={pathname === "/assets" && !currentStatus}
+              >
+                Total Assets
+              </NavButton>
+              <NavButton 
+                href="/assets?status=ASSIGNED" 
+                icon={Users} 
+                isActive={pathname === "/assets" && currentStatus === "ASSIGNED"}
+              >
+                Assigned Assets
+              </NavButton>
+              <NavButton 
+                href="/assets?status=AVAILABLE" 
+                icon={CreditCard} 
+                isActive={pathname === "/assets" && currentStatus === "AVAILABLE"}
+              >
+                Available Assets
+              </NavButton>
+              <NavButton 
+                href="/assets?status=MAINTENANCE" 
+                icon={AlertTriangle} 
+                isActive={pathname === "/assets" && currentStatus === "MAINTENANCE"}
+              >
+                Maintenance
+              </NavButton>
+              <NavButton 
+                href="/employees" 
+                icon={Users} 
+                isActive={pathname === "/employees"}
+              >
+                Directory
+              </NavButton>
+            </>
+          ) : (
+            <>
+              <NavButton 
+                href="/my-assets" 
+                icon={Package} 
+                isActive={pathname === "/my-assets"}
+              >
+                My Assets
+              </NavButton>
+              <NavButton 
+                href="/profile" 
+                icon={UserIcon} 
+                isActive={pathname === "/profile"}
+              >
+                Profile
+              </NavButton>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Footer / User Area */}
-      <div className="mt-auto border-t p-4 space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Avatar className="h-8 w-8">
-              <AvatarFallback className="bg-primary/10 text-primary text-xs">
+      <div className="px-3 pb-4 space-y-4">
+        <div className="bg-white/5 rounded-[1.25rem] p-4 border border-white/5">
+          <div className="flex items-center gap-3">
+            <Avatar className="h-10 w-10 border border-white/10 rounded-xl">
+              <AvatarFallback className="bg-primary/20 text-primary font-bold">
                 {userName.charAt(0)}
               </AvatarFallback>
             </Avatar>
-            <div className="flex flex-col">
-              <span className="text-sm font-medium">{userName}</span>
-              <span className="text-xs text-muted-foreground">{userRole}</span>
+            <div className="flex flex-col min-w-0">
+              <span className="text-sm font-bold text-white truncate">{userName}</span>
+              <span className="text-[10px] font-bold text-muted-foreground tracking-wider">{userRole}</span>
+            </div>
+            <div className="ml-auto flex items-center">
+               <button 
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="p-1.5 text-muted-foreground hover:text-white transition-colors"
+               >
+                 {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+               </button>
             </div>
           </div>
-
+          
           <Button
             variant="ghost"
-            size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="h-8 w-8"
+            onClick={handleLogout}
+            className="w-full mt-4 h-11 justify-start rounded-xl text-muted-foreground hover:text-white hover:bg-white/5 px-3"
           >
-            <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            <span className="sr-only">Toggle theme</span>
+            <LogOut className="mr-3 h-4 w-4" />
+            <span className="font-bold text-sm">Log out</span>
           </Button>
         </div>
-
-        <Button
-          variant="outline"
-          className="w-full justify-start text-muted-foreground hover:bg-destructive/10 hover:text-destructive border-border/50"
-          onClick={handleLogout}
-        >
-          <LogOut className="mr-2 h-4 w-4" />
-          Log out
-        </Button>
       </div>
     </div>
   );

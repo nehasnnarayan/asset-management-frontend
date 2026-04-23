@@ -48,6 +48,7 @@
 }
 
 :root {
+  font-size: 15px;
   --radius: 1rem;
   --background: oklch(0.13 0.02 290);
   --foreground: oklch(0.98 0 0);
@@ -55,7 +56,7 @@
   --card-foreground: oklch(0.98 0 0);
   --popover: oklch(0.18 0.03 290);
   --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.65 0.28 300);
+  --primary: oklch(0.6 0.25 310);
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.22 0.04 290);
   --secondary-foreground: oklch(0.98 0 0);
@@ -67,15 +68,15 @@
   --destructive-foreground: oklch(0.98 0 0);
   --border: oklch(0.25 0.02 290);
   --input: oklch(0.25 0.02 290);
-  --ring: oklch(0.65 0.28 300);
+  --ring: oklch(0.6 0.25 310);
   --sidebar: oklch(0.16 0.01 290);
   --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.65 0.28 300);
+  --sidebar-primary: oklch(0.6 0.25 310);
   --sidebar-primary-foreground: oklch(0.98 0 0);
   --sidebar-accent: oklch(0.22 0.03 290);
   --sidebar-accent-foreground: oklch(0.98 0 0);
   --sidebar-border: oklch(0.22 0.03 290);
-  --sidebar-ring: oklch(0.65 0.28 300);
+  --sidebar-ring: oklch(0.6 0.25 310);
 }
 
 .dark {
@@ -85,7 +86,7 @@
   --card-foreground: oklch(0.98 0 0);
   --popover: oklch(0.18 0.03 290);
   --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.65 0.28 300);
+  --primary: oklch(0.6 0.25 310);
   --primary-foreground: oklch(0.98 0 0);
   --secondary: oklch(0.22 0.04 290);
   --secondary-foreground: oklch(0.98 0 0);
@@ -97,15 +98,15 @@
   --destructive-foreground: oklch(0.98 0 0);
   --border: oklch(0.25 0.02 290);
   --input: oklch(0.25 0.02 290);
-  --ring: oklch(0.65 0.28 300);
+  --ring: oklch(0.6 0.25 310);
   --sidebar: oklch(0.16 0.01 290);
   --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.65 0.28 300);
+  --sidebar-primary: oklch(0.6 0.25 310);
   --sidebar-primary-foreground: oklch(0.98 0 0);
   --sidebar-accent: oklch(0.22 0.03 290);
   --sidebar-accent-foreground: oklch(0.98 0 0);
   --sidebar-border: oklch(0.22 0.03 290);
-  --sidebar-ring: oklch(0.65 0.28 300);
+  --sidebar-ring: oklch(0.6 0.25 310);
 }
 
 .charity-bg {

@@ -19,7 +19,7 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
       const res = await fetch(`${apiUrl}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -33,6 +33,7 @@ export default function LoginPage() {
       const data = await res.json();
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("userName", data.user.employee_code);
+      localStorage.setItem("employeeId", data.user.employee_id);
       
       const roles = data.user.roles || [];
       localStorage.setItem("availableRoles", JSON.stringify(roles));
