@@ -18,9 +18,7 @@ export default function ProfilePage() {
     confirm_password: ""
   });
 
-  const getApiUrl = () => {
-    return process.env.NEXT_PUBLIC_API_URL || "https://asset-management-backend-zjco.onrender.com/api";
-  };
+  const apiBase = "/api";
 
   useEffect(() => {
     fetchProfile();
@@ -34,7 +32,7 @@ export default function ProfilePage() {
         return;
       }
 
-      const res = await fetch(`${getApiUrl()}/auth/me`, {
+      const res = await fetch(`${apiBase}/auth/me`, {
         headers: {
           "Authorization": `Bearer ${token}`,
           "Accept": "application/json"
@@ -82,7 +80,7 @@ export default function ProfilePage() {
     setChangingPassword(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${getApiUrl()}/auth/change-password`, {
+      const res = await fetch(`${apiBase}/auth/change-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

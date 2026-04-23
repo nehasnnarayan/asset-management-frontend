@@ -56,8 +56,8 @@ export default function AssetsPage() {
     purchase_date: new Date().toISOString().split('T')[0]
   });
 
-  // Using absolute URL for production stability
-  const apiBase = process.env.NEXT_PUBLIC_API_URL || "https://asset-management-backend-zjco.onrender.com/api";
+  // Using relative path for production stability and to trigger Next.js rewrites
+  const apiBase = "/api";
 
   const fetchAssets = async () => {
     try {

@@ -19,8 +19,8 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://asset-management-backend-zjco.onrender.com/api";
-      const res = await fetch(`${apiUrl}/auth/login`, {
+      // Use relative path to trigger next.config.ts rewrites
+      const res = await fetch(`/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ employee_code: employeeCode, password }),

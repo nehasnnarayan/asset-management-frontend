@@ -35,9 +35,7 @@ export default function EmployeesPage() {
     department_id: 1 
   });
 
-  const getApiUrl = () => {
-    return process.env.NEXT_PUBLIC_API_URL || "https://asset-management-backend-zjco.onrender.com/api";
-  };
+  const apiBase = "/api";
 
   const fetchEmployees = async () => {
     try {
@@ -48,7 +46,7 @@ export default function EmployeesPage() {
         return;
       }
 
-      const res = await fetch(`${getApiUrl()}/employees/`, {
+      const res = await fetch(`${apiBase}/employees/`, {
         headers: { 
           "Authorization": `Bearer ${token}`,
           "Accept": "application/json"
@@ -78,7 +76,7 @@ export default function EmployeesPage() {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${getApiUrl()}/employees/`, {
+      const res = await fetch(`${apiBase}/employees/`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
