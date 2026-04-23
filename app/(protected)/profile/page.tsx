@@ -19,7 +19,7 @@ export default function ProfilePage() {
   });
 
   const getApiUrl = () => {
-    return process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+    return "/api";
   };
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function ProfilePage() {
         return;
       }
 
-      const res = await fetch(`${getApiUrl()}/api/auth/me`, {
+      const res = await fetch(`${getApiUrl()}/auth/me`, {
         headers: {
           "Authorization": `Bearer ${token}`,
           "Accept": "application/json"
@@ -82,7 +82,7 @@ export default function ProfilePage() {
     setChangingPassword(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${getApiUrl()}/api/auth/change-password`, {
+      const res = await fetch(`${getApiUrl()}/auth/change-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

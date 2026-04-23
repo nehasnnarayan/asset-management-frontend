@@ -29,7 +29,7 @@ export default function MyAssetsPage() {
   const [issueReason, setIssueReason] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  const apiUrl = "/api";
 
   useEffect(() => {
     fetchAssignments();
@@ -42,7 +42,7 @@ export default function MyAssetsPage() {
       const token = localStorage.getItem("token");
       if (!employeeId || !token) return;
 
-      const res = await fetch(`${apiUrl}/api/employees/${employeeId}/assignments`, {
+      const res = await fetch(`${apiUrl}/employees/${employeeId}/assignments`, {
         headers: { 
           "Authorization": `Bearer ${token}`,
           "Accept": "application/json"
@@ -75,7 +75,7 @@ export default function MyAssetsPage() {
     setIsSubmitting(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${apiUrl}/api/assets/${selectedAsset.asset_id}/report-issue`, {
+      const res = await fetch(`${apiUrl}/assets/${selectedAsset.asset_id}/report-issue`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

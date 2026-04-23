@@ -44,13 +44,13 @@ export default function SuperadminDashboardPage() {
     password: ""
   });
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  const apiUrl = "/api";
 
   const fetchAdmins = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const res = await fetch(`${apiUrl}/api/employees/admins/list`, {
+      const res = await fetch(`${apiUrl}/employees/admins/list`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
       if (!res.ok) throw new Error("Failed to fetch admins");
@@ -71,7 +71,7 @@ export default function SuperadminDashboardPage() {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${apiUrl}/api/employees/provision-admin`, {
+      const res = await fetch(`${apiUrl}/employees/provision-admin`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",

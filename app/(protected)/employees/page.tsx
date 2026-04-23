@@ -36,7 +36,7 @@ export default function EmployeesPage() {
   });
 
   const getApiUrl = () => {
-    return process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+    return "/api";
   };
 
   const fetchEmployees = async () => {
@@ -48,7 +48,7 @@ export default function EmployeesPage() {
         return;
       }
 
-      const res = await fetch(`${getApiUrl()}/api/employees/`, {
+      const res = await fetch(`${getApiUrl()}/employees/`, {
         headers: { 
           "Authorization": `Bearer ${token}`,
           "Accept": "application/json"

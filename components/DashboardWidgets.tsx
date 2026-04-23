@@ -28,8 +28,8 @@ export function StatCards() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-    fetch(`${apiUrl}/api/dashboard/summary`)
+    const apiUrl = "/api";
+    fetch(`${apiUrl}/dashboard/summary`)
       .then(res => res.json())
       .then(data => {
         setStats(data);
@@ -150,8 +150,8 @@ export function RecentActivityTable() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-    fetch(`${apiUrl}/api/dashboard/recent-activities`)
+    const apiUrl = "/api";
+    fetch(`${apiUrl}/dashboard/recent-activities`)
       .then(res => res.json())
       .then(data => {
         setActivities(data);
