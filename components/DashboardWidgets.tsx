@@ -28,8 +28,8 @@ export function StatCards() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://asset-management-backend-zjco.onrender.com/api";
-    fetch(`${apiUrl}/dashboard/summary`)
+    const apiBase = "/api";
+    fetch(`${apiBase}/dashboard/summary`)
       .then(res => res.json())
       .then(data => {
         setStats(data);
@@ -150,11 +150,11 @@ export function RecentActivityTable() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://asset-management-backend-zjco.onrender.com/api";
-    fetch(`${apiUrl}/dashboard/recent-activities`)
+    const apiBase = "/api";
+    fetch(`${apiBase}/dashboard/recent-activities`)
       .then(res => res.json())
       .then(data => {
-        setActivities(data);
+        setActivities(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch(err => {
@@ -196,7 +196,7 @@ export function RecentActivityTable() {
               ) : (
                 activities.map((assignment, index) => (
                   <TableRow key={index} className="border-white/5 hover:bg-white/5 transition-colors group">
-                    <TableCell className="font-mono font-bold text-muted-foreground/80 text-sm pl-8 py-4">{assignment.asset_code || 'A-1029'}</TableCell>
+                    <TableCell className="font-mono font-bold text-muted-foreground/80 text-sm pl-8 py-4">{assignment.id || 'A-1029'}</TableCell>
                     <TableCell className="font-bold text-white text-sm py-4">{assignment.asset}</TableCell>
                     <TableCell className="font-bold text-white text-sm py-4">{assignment.employee}</TableCell>
                     <TableCell className="text-right pr-8 py-4">
