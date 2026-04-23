@@ -78,7 +78,7 @@ export default function EmployeesPage() {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${getApiUrl()}/api/employees/`, {
+      const res = await fetch(`${getApiUrl()}/employees/`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
