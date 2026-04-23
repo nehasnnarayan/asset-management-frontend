@@ -19,7 +19,7 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const apiUrl = "/api";
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://asset-management-backend-zjco.onrender.com/api";
       const res = await fetch(`${apiUrl}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

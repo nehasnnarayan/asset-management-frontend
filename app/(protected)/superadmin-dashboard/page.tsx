@@ -44,7 +44,7 @@ export default function SuperadminDashboardPage() {
     password: ""
   });
 
-  const apiUrl = "/api";
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://asset-management-backend-zjco.onrender.com/api";
 
   const fetchAdmins = async () => {
     try {

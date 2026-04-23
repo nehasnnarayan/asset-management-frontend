@@ -28,7 +28,7 @@ export function StatCards() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const apiUrl = "/api";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://asset-management-backend-zjco.onrender.com/api";
     fetch(`${apiUrl}/dashboard/summary`)
       .then(res => res.json())
       .then(data => {
@@ -150,7 +150,7 @@ export function RecentActivityTable() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const apiUrl = "/api";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://asset-management-backend-zjco.onrender.com/api";
     fetch(`${apiUrl}/dashboard/recent-activities`)
       .then(res => res.json())
       .then(data => {

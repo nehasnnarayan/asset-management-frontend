@@ -29,7 +29,7 @@ export default function MyAssetsPage() {
   const [issueReason, setIssueReason] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const apiUrl = "/api";
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://asset-management-backend-zjco.onrender.com/api";
 
   useEffect(() => {
     fetchAssignments();

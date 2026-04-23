@@ -19,7 +19,7 @@ export default function ProfilePage() {
   });
 
   const getApiUrl = () => {
-    return "/api";
+    return process.env.NEXT_PUBLIC_API_URL || "https://asset-management-backend-zjco.onrender.com/api";
   };
 
   useEffect(() => {
